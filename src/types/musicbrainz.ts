@@ -2,10 +2,7 @@ export interface MusicBrainzArtist {
   id: string
   name: string
   sortName?: string
-  country?: string
-  area?: {
-    name: string
-  }
+  disambiguation?: string
 }
 
 export interface MusicBrainzRelease {
@@ -13,6 +10,7 @@ export interface MusicBrainzRelease {
   title: string
   date?: string
   country?: string
+  status?: string
   releaseGroup?: {
     id: string
     primaryType?: string
@@ -48,9 +46,11 @@ export interface MusicBrainzTrack {
 export interface MusicBrainzReleaseGroup {
   id: string
   title: string
-  primaryType?: string
+  'primary-type'?: string
+  'primary-type-id'?: string
+  'first-release-date'?: string
   releases?: MusicBrainzRelease[]
-  artistCredit?: {
+  'artist-credit'?: {
     artist: MusicBrainzArtist
     name?: string
   }[]

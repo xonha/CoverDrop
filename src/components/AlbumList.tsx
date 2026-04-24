@@ -26,7 +26,7 @@ export function AlbumList({ results, onSelect, loading }: AlbumListProps) {
           <div className="flex-1 text-left">
             <h3 className="font-semibold truncate">{album.title}</h3>
             <p className="text-gray-400 text-sm truncate">
-              {album.artistCredit?.[0]?.artist?.name || 'Unknown Artist'}
+              {album['artist-credit']?.[0]?.name || album['artist-credit']?.[0]?.artist?.name || 'Unknown Artist'}
             </p>
           </div>
         </button>

@@ -8,10 +8,10 @@ interface AlbumPosterProps {
 }
 
 export function AlbumPoster({ album, coverUrl, tracks, size = 600 }: AlbumPosterProps) {
-  const artistName = album.artistCredit?.[0]?.artist?.name || album.artistCredit?.[0]?.name || ''
+  const artistName = album.artistCredit?.[0]?.name || album.artistCredit?.[0]?.artist?.name || ''
   const releaseDate = album.date || ''
 
-  const displayTracks = tracks.length > 0 ? tracks : album.media?.[0]?.tracks || []
+  const trackList = tracks.length > 0 ? tracks : album.media?.[0]?.tracks || []
 
   return (
     <div
@@ -46,7 +46,7 @@ export function AlbumPoster({ album, coverUrl, tracks, size = 600 }: AlbumPoster
           <div className="flex-1 overflow-hidden">
             <h3 className="text-sm font-semibold mb-3 border-b border-gray-700 pb-2">Tracklist</h3>
             <ul className="space-y-1 text-sm overflow-y-auto">
-              {displayTracks.slice(0, 15).map((track: MusicBrainzTrack, i: number) => (
+              {trackList.slice(0, 15).map((track, i) => (
                 <li key={i} className="text-gray-300 truncate">
                   {i + 1}. {track.recording?.title || track.title || 'Untitled'}
                 </li>

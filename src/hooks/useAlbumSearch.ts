@@ -60,8 +60,8 @@ export function useAlbumSearch() {
         actualRelease = {
           id: release?.id || group.id,
           title: group.title,
-          date: release?.date,
-          releaseGroup: { id: group.id, primaryType: group.primaryType }
+          date: group['first-release-date'],
+          releaseGroup: { id: group.id, primaryType: group['primary-type'] }
         }
       }
 
