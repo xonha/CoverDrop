@@ -44,7 +44,12 @@ export async function getCoverArtUrls(releaseId: string): Promise<string[]> {
     if (!res.ok) return []
     const data = await res.json()
     if (data.images && Array.isArray(data.images)) {
-      return data.images.map((img: any) => img.thumbnails?.large || img.thumbnails?.small || img.image).filter(Boolean)
+      return data.images
+        .map((img: any) => {
+          const url = img.thumbnails?.large || img.thumbnails?.small || img.image
+          return url?.replace('http://', 'https://')
+        })
+        .filter(Boolean)
     }
   } catch {}
   return []
