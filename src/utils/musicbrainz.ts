@@ -15,7 +15,7 @@ async function fetchWithUA<T>(url: string): Promise<T> {
 }
 
 export async function searchReleases(query: string, limit = 20): Promise<MusicBrainzReleaseGroup[]> {
-  const url = `${BASE_URL}/release-group?query=${encodeURIComponent(query)}&fmt=json&limit=${limit}&type=album|secondary`
+  const url = `${BASE_URL}/release-group?query=${encodeURIComponent(query)}&fmt=json&limit=${limit}`
   const data = await fetchWithUA<{ releaseGroups: MusicBrainzReleaseGroup[] }>(url)
   return data.releaseGroups || []
 }
