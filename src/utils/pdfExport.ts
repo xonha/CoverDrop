@@ -18,7 +18,7 @@ export function exportToPDF({ album, coverUrl, tracks }: ExportOptions) {
   const pageHeight = 297
   const margin = 15
 
-  const artistName = album.artistCredit?.[0]?.artist?.name || album.artistCredit?.[0]?.name || ''
+  const artistName = album.artistCredit?.[0]?.name || album.artistCredit?.[0]?.artist?.name || ''
   const releaseDate = album.date || ''
 
   pdf.setFillColor(30, 30, 30)
