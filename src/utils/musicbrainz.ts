@@ -1,0 +1,43 @@
+import type { MusicBrainzReleaseGroup, MusicBrainzRelease } from '../types/musicbrainz'
+
+const BASE_URL = 'https://musicbrainz.org/ws/2'
+const COVERART_URL = 'http://coverartarchive.org'
+
+async function fetchWithUA<T>(url: string): Promise<T> {
+  const res = await fetch(url, {
+    headers: {
+      'User-Agent': 'CoverDrop/1.0 (https://github.com/xonha/CoverDrop; contact@xonha.github.io)',
+      'Accept': 'application/json'
+    }
+  })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}
+
+export async function searchReleases(query: string, limit = 20): Promise<MusicBrainzReleaseGroup[]> {
+  const url = `${BASE_URL}/release-group?query=${encodeURIComponent(query)}&fmt=json&limit=${limit}&type=album|secondary`
+  const data = await fetchWithUA<{ releaseGroups: MusicBrainzReleaseGroup[] }>(url)
+  return data.releaseGroups || []
+}
+
+export async function getRelease(id: string): Promise<MusicBrainzRelease | null> {
+  const url = `${BASE_URL}/release/${id}?fmt=json&inc=artist+release-groups+media+recordings`
+  const data = await fetchWithUA<MusicBrainzRelease>(url)
+  return data
+}
+
+export async function getReleaseGroup(id: string): Promise<MusicBrainzReleaseGroup | null> {
+  const url = `${BASE_URL}/release-group/${id}?fmt=json&inc=releases+artist`
+  const data = await fetchWithUA<MusicBrainzReleaseGroup>(url)
+  return data
+}
+
+export async function getCoverArtUrl(releaseId: string): Promise<string> {
+  try {
+    const res = await fetch(`${COVERART_URL}/release/${releaseId}/front`, { method: 'HEAD' })
+    if (res.ok) {
+      return `${COVERART_URL}/release/${releaseId}/front-250`
+    }
+  } catch {}
+  return ''
+}
