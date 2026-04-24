@@ -34,9 +34,22 @@ export async function getReleaseGroup(id: string): Promise<MusicBrainzReleaseGro
 
 export async function getCoverArtUrl(releaseId: string): Promise<string> {
   try {
-    const res = await fetch(`${COVERART_URL}/release/${releaseId}/front`, { method: 'HEAD' })
-    if (res.ok) {
-      return `${COVERART_URL}/release/${releaseId}/front-250`
+    const res = await fetch(`${COVERART_URL}/release/${releaseId}`, {
+      headers: {
+        'User-Agent': 'CoverDrop/1.0 (https://github.com/xonha/CoverDrop; contact@xonha.github.io)'
+      }
+    })
+    if (!res.ok) return ''
+    const data = await res.json()
+    const images = data.images
+    if (Array.isArray(images)) {
+      const front = images.find((img: any) => img.types?.includes('Front'))
+      if (front?.image) {
+        return front.image
+      }
+      if (images[0]?.image) {
+        return images[0].image
+      }
     }
   } catch {}
   return ''
