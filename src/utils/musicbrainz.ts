@@ -21,7 +21,7 @@ export async function searchReleases(query: string, limit = 20): Promise<MusicBr
 }
 
 export async function getRelease(id: string): Promise<MusicBrainzRelease | null> {
-  const url = `${BASE_URL}/release/${id}?fmt=json&inc=artist+release-groups+media+recordings`
+  const url = `${BASE_URL}/release/${id}?fmt=json&inc=release-groups+media+recordings`
   const data = await fetchWithUA<MusicBrainzRelease>(url)
   return data
 }
