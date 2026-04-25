@@ -41,7 +41,7 @@ export function AlbumPoster({
 
         <div className="w-full flex flex-col overflow-hidden">
           <h1 className="text-2xl font-medium text-center">{album.title}</h1>
-          <h1 className="text-2xl font-medium pb-6 text-center">
+          <h1 className="text-2xl font-medium text-center pb-6">
             Bring Me The Horizon
           </h1>
 
@@ -54,11 +54,13 @@ export function AlbumPoster({
 
 function TrackList(p: { tracks: MusicBrainzTrack[] }) {
   return (
-    <div className="flex-1 overflow-hidden font-normal tracking-wider text-center">
-      {p.tracks.map((track, i) => {
-        if (i === p.tracks.length - 1) return track.title;
-        return track.title + " · ";
-      })}
+    <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 font-normal text-sm tracking-wide text-center">
+      {p.tracks.map((track, i) => (
+        <span key={i} className="whitespace-nowrap">
+          {track.title}
+          {i < p.tracks.length - 1 && " · "}
+        </span>
+      ))}
     </div>
   );
 }
@@ -72,7 +74,7 @@ function PosterBackground(p: { coverUrl: string }) {
         alt=""
         className="w-full h-full object-cover blur-sm scale-105"
       />
-      <div className="absolute inset-0 z-10 bg-black/40 w-full h-full" />
+      <div className="absolute inset-0 z-10 bg-black/70 w-full h-full" />
     </div>
   );
 }
