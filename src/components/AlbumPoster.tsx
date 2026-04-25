@@ -20,11 +20,15 @@ export function AlbumPoster({
   tracks,
   size = 600,
 }: AlbumPosterProps) {
+  const [coverContrast, setCoverContrast] = useState(0);
   const [bgColor, setBgColor] = useState("#000000");
-  const [bgOpacity, setBgOpacity] = useState(70);
+  const [bgOpacity, setBgOpacity] = useState(50);
 
   return (
-    <div className="relative" style={{ width: size + 200, height: size * 1.414 }}>
+    <div
+      className="relative"
+      style={{ width: size + 200, height: size * 1.414 }}
+    >
       <div
         className="relative text-white overflow-hidden flex flex-col items-center"
         style={{
@@ -44,6 +48,7 @@ export function AlbumPoster({
               src={coverUrl}
               alt={album.title}
               className="h-auto object-cover pb-6"
+              style={{ filter: `contrast(${100 + coverContrast}%)` }}
             />
           </div>
 
@@ -56,10 +61,29 @@ export function AlbumPoster({
         </div>
       </div>
 
-      <PosterSidebar sections={[
-        { label: "Background Color", value: bgColor, onChange: (v) => setBgColor(v as string) },
-        { label: "Background Opacity", value: bgOpacity, onChange: (v) => setBgOpacity(v as number), min: 0, max: 100 },
-      ]} />
+      <PosterSidebar
+        sections={[
+          {
+            label: "Cover Contrast",
+            value: coverContrast,
+            onChange: (v) => setCoverContrast(v as number),
+            min: -100,
+            max: 100,
+          },
+          {
+            label: "Background Color",
+            value: bgColor,
+            onChange: (v) => setBgColor(v as string),
+          },
+          {
+            label: "Background Opacity",
+            value: bgOpacity,
+            onChange: (v) => setBgOpacity(v as number),
+            min: 0,
+            max: 100,
+          },
+        ]}
+      />
     </div>
   );
 }
